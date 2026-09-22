@@ -34,7 +34,7 @@ A cinematic Marvel-inspired landing page featuring interactive character transit
 2. Open the project directory:
 
 	```bash
-	cd "Animated Website"
+	cd "marvel-animated-website"
 	```
 
 3. Install the npm dependency:

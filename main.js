@@ -17,7 +17,7 @@ Shery.imageEffect("#back", {
     growSize: { value: 1.85, range: [1, 15] },
     durationOut: { value: 1, range: [0.1, 5] },
     durationIn: { value: 1.5, range: [0.1, 5] },
-    displaceAmount: { value: 0.5 },
+    displaceAmount: { value: 0.2 },
     masker: { value: false },
     maskVal: { value: 1, range: [1, 5] },
     scrollType: { value: 0 },
@@ -34,15 +34,17 @@ Shery.imageEffect("#back", {
   gooey: true,
 });
 
+// left side animation
 let textElem = document.querySelectorAll(".elem");
-
+let scene = document.querySelector("#main");
 textElem.forEach((elem) => {
   let headings = elem.querySelectorAll("h1");
   let index = 0;
   let isAnimating = false;
-  document.querySelector("#main").addEventListener("click", function () {
+  scene.addEventListener("click", function () {
     if (isAnimating) return;
     isAnimating = true;
+    scene.style.pointerEvents = "none"; // Disable pointer events during animation
 
     gsap.to(headings[index], {
       top: "-=100%",
@@ -51,6 +53,7 @@ textElem.forEach((elem) => {
       onComplete: function () {
         gsap.set(this._targets[0], { top: "100%" });
         isAnimating = false;
+        scene.style.pointerEvents = "auto"; // Re-enable pointer events after animation
       },
     });
 
@@ -64,5 +67,75 @@ textElem.forEach((elem) => {
         isAnimating = false;
       },
     });
+  });
+});
+
+// right side animation
+
+let infoElems = document.querySelectorAll("#hero-right .info");
+
+infoElems.forEach((infoElem) => {
+  let paragraphs = infoElem.querySelectorAll("p");
+  let paraIndex = 0;
+  let isAnimating = false;
+  document.querySelector("#main").addEventListener("click", function () {
+    if (isAnimating) return;
+    isAnimating = true;
+
+    gsap.to(paragraphs[paraIndex], {
+      top: "+=100%",
+      ease: "Expo.easeInOut",
+      duration: 0.5,
+      onComplete: function () {
+        gsap.set(this._targets[0], { top: "-100%" });
+        isAnimating = false;
+      },
+    });
+
+    paraIndex = paraIndex === paragraphs.length - 1 ? 0 : paraIndex + 1;
+
+    gsap.to(paragraphs[paraIndex], {
+      top: "+=100%",
+      ease: "Expo.easeInOut",
+      duration: 0.5,
+      onComplete: function () {
+        isAnimating = false;
+      },
+    });
+  });
+});
+
+// right side image animation
+let imageDiv = document.querySelector("#image-div");
+let imageElems = document.querySelectorAll("#image-div img");
+let imageIndex = 0;
+let isImageAnimating = false;
+
+scene.addEventListener("click", function () {
+  if (isImageAnimating) return;
+  isImageAnimating = true;
+
+  let currentImage = imageElems[imageIndex];
+  let nextImage = imageElems[(imageIndex + 1) % imageElems.length];
+
+  gsap.to(currentImage, {
+    top: "100%",
+    ease: "Expo.easeInOut",
+    duration: 0.5,
+    onComplete: function () {
+      gsap.set(this._targets[0], { top: "-100%" });
+    },
+  });
+
+  gsap.set(nextImage, { top: "-100%" });
+
+  gsap.to(nextImage, {
+    top: 0,
+    ease: "Expo.easeInOut",
+    duration: 0.5,
+    onComplete: function () {
+      isImageAnimating = false;
+      imageIndex = (imageIndex + 1) % imageElems.length;
+    },
   });
 });

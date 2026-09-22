@@ -6,8 +6,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "keywords": [],
-  "author": "",
+  "keywords": ["animated website","marvel animated website","three js","shery js","GSAP","three js animated website"],
+  "author": "Lokesh Azad",
   "license": "ISC",
   "type": "commonjs",
   "dependencies": {
